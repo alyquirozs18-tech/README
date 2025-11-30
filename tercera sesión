@@ -1,0 +1,61 @@
+#include <iostream>
+#include <string>
+#include <limits> // Para limpieza de buffer en validaciones
+using namespace std;
+int main() {
+    // --- 1. Declaración de Variables ---
+    string nombre_producto;
+    int inventario_actual = 0;
+    int cantidad_transaccion = 0;
+    int opcion = 0;
+    // --- 2. Inicio: Solicitar datos iniciales ---
+    cout << "========================================" << endl;
+    cout << " SISTEMA DE GESTION DE INVENTARIO" << endl;
+    cout << "========================================" << endl;
+    cout << "Ingrese nombre del producto: ";
+    // Usamos getline para permitir nombres con espacios (ej: "Coca Cola")
+    getline(cin, nombre_producto);
+    cout << "Ingrese el stock inicial de " << nombre_producto << ": ";
+    cin >> inventario_actual;
+    // --- 3. Bucle del Menú Principal ---
+    do {
+        cout << "\n--- Acciones para " << nombre_producto << " ---" << endl;
+        cout << "Stock Actual: " << inventario_actual << " unidades." << endl;
+        cout << "1. Registrar Venta (Disminuir)" << endl;
+        cout << "2. Abastecer Inventario (Aumentar)" << endl;
+        cout << "3. Salir" << endl;
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+        switch (opcion) {
+            case 1: // Venta
+                cout << "Ingrese cantidad vendida: ";
+                cin >> cantidad_transaccion;
+                if (cantidad_transaccion > 0 && cantidad_transaccion <= inventario_actual) {
+                    inventario_actual -= cantidad_transaccion;
+                    cout << ">> Venta registrada con exito." << endl;
+                } else if (cantidad_transaccion > inventario_actual) {
+                    cout << "!! Error: No hay suficiente stock para esta venta." << endl;
+                } else {
+                    cout << "!! Error: Cantidad no valida." << endl;
+                }
+                break;
+            case 2: // Abastecimiento
+                cout << "Ingrese cantidad a abastecer: ";
+                cin >> cantidad_transaccion;
+                if (cantidad_transaccion > 0) {
+                    inventario_actual += cantidad_transaccion;
+                    cout << ">> Inventario abastecido con exito." << endl;
+                } else {
+                    cout << "!! Error: La cantidad debe ser positiva." << endl;
+                }
+                break;
+            case 3: // Salir
+                cout << "Saliendo del sistema..." << endl;
+                break;
+            default:
+                cout << "!! Opcion no reconocida. Intente de nuevo." << endl;
+        }
+    } while (opcion != 3); // El programa se repite hasta que la opción sea 3
+    return 0;
+}
+
